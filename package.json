@@ -1,0 +1,26 @@
+{
+  "name": "@hathq/delivery-server",
+  "version": "0.10.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Bounded trusted document and asset delivery; existing Crowsi STATE transport only",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "LICENSE-PREVIOUS"
+  ],
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "dependencies": {
+    "@hathq/delivery-contracts": "file:../../../../../../../.artifacts/npm/d3e601ba35459a8c6e88812a18f02846a3504582625179ba48d51760b45b82cb/hathq-delivery-contracts-0.10.0.tgz",
+    "@crowsi/transport-foundation": "file:../../../../../../../.artifacts/npm/732fd4b4eaef9a553f318335402aa5f5803b92e032f7037e7c9aeb556ef35d71/crowsi-transport-foundation-0.10.0.tgz",
+    "@crowsi/browser-security": "file:../../../../../../../.artifacts/npm/84e72b71616d5f5507518e09129c26546851cad3045f14e7034f32cb5fb89581/crowsi-browser-security-0.10.0.tgz",
+    "ws": "8.21.2"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
