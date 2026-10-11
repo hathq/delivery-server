@@ -1,0 +1,26 @@
+{
+  "repository": "hathq/delivery-server",
+  "packages": [
+    {
+      "name": "@hathq/delivery-server",
+      "version": "0.10.0",
+      "directory": ".",
+      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
+      "sha256": "38b893cc3af07a05cb316915ebb219726a7c3612214d26559834dc20c0373d52"
+    },
+    {
+      "name": "@hathq/delivery-contracts",
+      "version": "0.10.0",
+      "directory": "packages/delivery-contracts",
+      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
+      "sha256": "10c379779ad9e9f1897395884dbf583ba40692af4c0ad5485bd7a5503ba77756"
+    },
+    {
+      "name": "@hathq/delivery-client",
+      "version": "0.10.0",
+      "directory": "packages/delivery-client",
+      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
+      "sha256": "023abf500425676a05a203f1729f4d2d5b3e149837485ee4a4ab5fcd7abeef2d"
+    }
+  ]
+}
