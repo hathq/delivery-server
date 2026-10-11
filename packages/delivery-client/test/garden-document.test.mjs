@@ -12,7 +12,7 @@ import net from 'node:net'
 test('full-document garden distinguishes unavailable, empty and populated data without reopening setup or losing panel focus',{timeout:45000},async()=>{
  const bundle=await build({stdin:{contents:"import {startDelivery} from './src/index.mjs';window.delivery=startDelivery(document.querySelector('#app'),JSON.parse(document.querySelector('#delivery-state').textContent));",resolveDir:process.cwd()},bundle:true,platform:'browser',format:'esm',minify:true,write:false,logLevel:'silent'})
  assert.deepEqual(bundle.warnings,[])
- const assets=[['client.js',Buffer.from(bundle.outputFiles[0].contents),'script'],['style.css',fs.readFileSync(new URL(import.meta.resolve('@hathq/dom-renderer/style'))),'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
+ const assets=[['client.js',Buffer.from(bundle.outputFiles[0].contents),'script'],['style.css',fs.readFileSync(new URL(import.meta.resolve('@zixcel/dom-renderer/style'))),'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
  const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r))
  const origin='http://localhost:'+port,person={id:'role:one',title:'Person',status:'Available',roleRef:{id:'role:one',revision:'role:1'},preparation:{label:'No authority registered',detail:'Owner-declared preparation note',facts:[{label:'Registered authorities',value:0}]}}
  let world={title:'Your world',objects:[person]},revision=0,effects=0,pendingPerson=false,selectedPerson=false,denied=false

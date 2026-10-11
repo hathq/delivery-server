@@ -18,8 +18,7 @@
     }
   },
   "dependencies": {
-    "@hathq/projection-contracts": "0.10.0",
-    "@zixcel/interaction": "0.10.1"
+    "@zixcel/view-delivery-contracts": "0.10.0"
   },
   "scripts": {
     "test": "node --test test/*.test.mjs"

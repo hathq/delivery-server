@@ -1,7 +1,7 @@
 // Hatter downstream 2026: presentation changes preserve input; exact source changes invalidate it.
-import {ClientProjectionRuntime,renderPlan} from '@hathq/projection-client'
+import {ClientProjectionRuntime,renderPlan} from '@zixcel/projection-client'
 import {validateDelivery,readiness} from '@hathq/delivery-contracts'
-import {SceneRenderer,element,valueView,inputForm,symbol,windowFrame,worldControlGuide,spatialView,structureGraph,createWorldSurface} from '@hathq/dom-renderer'
+import {SceneRenderer,element,valueView,inputForm,symbol,windowFrame,worldControlGuide,spatialView,structureGraph,createWorldSurface} from '@zixcel/dom-renderer'
 import {activityView,roleInferenceView,roleInferenceStatus} from './activity-view.mjs'
 import {unresolvedPresentation} from './unresolved-presentation.mjs'
 import {StateSocketClient} from '@crowsi/transport-foundation/state-socket'

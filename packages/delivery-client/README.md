@@ -15,7 +15,7 @@ Package distribution is not activated by this documentation. Use the checked-in 
 
 ## Getting started
 
-The manifest currently requires locally supplied package archives: `@hathq/delivery-contracts`, `@hathq/projection-client`, `@hathq/dom-renderer`, `@crowsi/transport-foundation`, `@hathq/delivery-server`, `@hathq/projection-contracts`. These archives are excluded from Git. Obtain the exact approved dependency artifacts before installing; a fresh clone alone is not sufficient. Registry distribution remains pending.
+The manifest currently requires locally supplied package archives: `@hathq/delivery-contracts`, `@zixcel/projection-client`, `@zixcel/dom-renderer`, `@crowsi/transport-foundation`, `@hathq/delivery-server`, `@zixcel/projection-contracts`. These archives are excluded from Git. Obtain the exact approved dependency artifacts before installing; a fresh clone alone is not sufficient. Registry distribution remains pending.
 
 Use the package manager matching the checked-in lockfile and the Node.js version declared in `package.json` or the development configuration. Run from this repository:
 

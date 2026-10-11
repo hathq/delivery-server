@@ -1,14 +1,15 @@
-name: Verify packed delivery contracts
+name: Verify Hatter adapters against generic delivery
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  contracts-consumer:
+  product-adapters:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -16,16 +17,47 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: '24.15.0'
-      - name: Pack the maintained package and install official dependencies
+          package-manager-cache: false
+      - name: Build exact dependency artifacts and verify isolated consumers
         run: |
-          mkdir "$RUNNER_TEMP/contracts-consumer"
-          npm pack ./packages/delivery-contracts --pack-destination "$RUNNER_TEMP/contracts-consumer"
-          cp packages/delivery-contracts/test/consumer.mts "$RUNNER_TEMP/contracts-consumer/"
-          cd "$RUNNER_TEMP/contracts-consumer"
-          printf '%s\n' '{"name":"contracts-consumer","private":true,"type":"module"}' > package.json
-          npm install --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org ./hathq-delivery-contracts-0.10.0.tgz typescript@5.9.3
-      - name: Verify actual archive ESM exports and strict NodeNext declarations
-        run: |
-          cd "$RUNNER_TEMP/contracts-consumer"
-          node --input-type=module -e "import {bounds} from '@hathq/delivery-contracts'; if(bounds.requestBytes!==32768)throw new Error('contract bounds mismatch')"
-          ./node_modules/.bin/tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext consumer.mts
+          : > "$RUNNER_TEMP/user.npmrc"
+          : > "$RUNNER_TEMP/global.npmrc"
+          export NPM_CONFIG_USERCONFIG="$RUNNER_TEMP/user.npmrc"
+          export NPM_CONFIG_GLOBALCONFIG="$RUNNER_TEMP/global.npmrc"
+          export NPM_CONFIG_REGISTRY=https://registry.npmjs.org
+          git init --quiet "$RUNNER_TEMP/projection"
+          git -C "$RUNNER_TEMP/projection" remote add origin https://github.com/zixcel/projection-runtime.git
+          git -C "$RUNNER_TEMP/projection" fetch --quiet --depth=1 origin c8a5e4bebc56a8d726772664c92870228378de6b
+          git -C "$RUNNER_TEMP/projection" checkout --quiet --detach FETCH_HEAD
+          git init --quiet "$RUNNER_TEMP/generic-delivery"
+          git -C "$RUNNER_TEMP/generic-delivery" remote add origin https://github.com/zixcel/view-delivery.git
+          git -C "$RUNNER_TEMP/generic-delivery" fetch --quiet --depth=1 origin ff653d6307c7018ef58c0710a294a60449bcdb2c
+          git -C "$RUNNER_TEMP/generic-delivery" checkout --quiet --detach FETCH_HEAD
+          mkdir "$RUNNER_TEMP/consumer"
+          mkdir "$RUNNER_TEMP/consumer/archives"
+          npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
+          npm pack ./packages/delivery-contracts --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
+          npm pack ./packages/delivery-client --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
+          for folder in . packages/delivery-contracts; do
+            (cd "$RUNNER_TEMP/generic-delivery/$folder" && npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives")
+          done
+          for folder in . packages/projection-contracts packages/projection-client packages/dom-renderer; do
+            (cd "$RUNNER_TEMP/projection/$folder" && npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives")
+          done
+          cd "$RUNNER_TEMP/consumer"
+          printf '%s\n' '{"private":true,"type":"module"}' > package.json
+          npm install --ignore-scripts --no-audit --no-fund ./archives/*.tgz typescript@5.9.3 @types/node@24.12.0 esbuild@0.28.1 @playwright/test@1.62.1
+          node node_modules/playwright/cli.js install --with-deps chromium
+          cp "$GITHUB_WORKSPACE/packages/delivery-contracts/test/consumer.mts" .
+          node node_modules/typescript/bin/tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext --target ES2022 consumer.mts
+          ln -s "$RUNNER_TEMP/consumer/node_modules" "$GITHUB_WORKSPACE/node_modules"
+          cd "$GITHUB_WORKSPACE"
+          node --test test/*.test.mjs
+          (cd packages/delivery-contracts && node --test test/*.test.mjs)
+          (cd packages/delivery-client && env -u NO_COLOR node --test --test-concurrency=1 test/*.test.mjs)
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: reviewed-hatter-product-adapters
+          path: ${{ runner.temp }}/consumer/archives/hathq-delivery*.tgz
+          if-no-files-found: error
+          retention-days: 7

@@ -1,6 +1,6 @@
 # @hathq/delivery-server
 
-Serve reviewed view snapshots and trusted release assets from a configured display host.
+Provide Hatter product policy and UI over the generic Zixcel delivery host.
 
 ## What you can do
 
@@ -15,7 +15,7 @@ Package distribution is not activated by this documentation. Use the checked-in 
 
 ## Getting started
 
-The manifest currently requires locally supplied package archives: `@hathq/delivery-contracts`, `@crowsi/transport-foundation`, `@crowsi/browser-security`. These archives are excluded from Git. Obtain the exact approved dependency artifacts before installing; a fresh clone alone is not sufficient. Registry distribution remains pending.
+This migration branch uses registry version declarations for the new Zixcel host/contracts and projection packages. Their initial npm publication is pending. CI tests all reviewed archives together; the branch must not replace a released consumer dependency graph before official publication.
 
 Use the package manager matching the checked-in lockfile and the Node.js version declared in `package.json` or the development configuration. Run from this repository:
 
