@@ -1,0 +1,44 @@
+name: Source history restoration
+on:
+  push:
+    branches: [main]
+    paths: ['source-history/**', 'source-consolidation.json', '.github/workflows/source-history.yml']
+  pull_request:
+    paths: ['source-history/**', 'source-consolidation.json', '.github/workflows/source-history.yml']
+permissions:
+  contents: read
+jobs:
+  source-history:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Restore original Git objects and verify every observed source ref
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,subprocess,tempfile
+          from pathlib import Path
+          data=json.loads(Path('source-consolidation.json').read_text())
+          count=0
+          for component in data['components']:
+              archive=component.get('history_archive')
+              if archive is None:
+                  continue
+              bundle=Path(archive['path']).resolve()
+              assert hashlib.sha256(bundle.read_bytes()).hexdigest()==archive['sha256']
+              with tempfile.TemporaryDirectory() as folder:
+                  subprocess.run(['git','init','--bare','--quiet',folder],check=True)
+                  subprocess.run(['git','-C',folder,'fetch','--quiet',str(bundle),'+refs/heads/*:refs/heads/*','+refs/tags/*:refs/tags/*'],check=True)
+                  subprocess.run(['git','-C',folder,'cat-file','-e',component['source_head']+'^{commit}'],check=True)
+                  for reference in archive['observed_source_refs']:
+                      ref=reference['ref']
+                      if ref.startswith('refs/heads/'):
+                          ref=ref.replace('refs/heads/','refs/heads/source/',1)
+                      actual=subprocess.check_output(['git','-C',folder,'rev-parse',ref],text=True).strip()
+                      assert actual==reference['sha'], reference['ref']
+              count+=1
+          assert count>0
+          print(f'Restored {count} source histories and all recorded refs')
+          PY

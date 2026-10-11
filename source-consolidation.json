@@ -8,7 +8,19 @@
       "owner_repository": "hathq/delivery-server",
       "subpath": "packages/delivery-contracts",
       "source_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
-      "history_ref": "refs/consolidated/delivery-contracts/original-HEAD"
+      "local_history_ref": "refs/consolidated/delivery-contracts/original-HEAD",
+      "history_archive": {
+        "path": "source-history/delivery-contracts/original.bundle",
+        "format": "git-bundle-v2",
+        "sha256": "561a1e775c1280babcdf8af4b5de64c818079cf22cdfdc25a7dcda8e8e240e0b",
+        "original_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
+        "observed_source_refs": [
+          {
+            "sha": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
+            "ref": "refs/heads/main"
+          }
+        ]
+      }
     },
     {
       "id": "delivery-client",
@@ -17,8 +29,20 @@
       "owner_repository": "hathq/delivery-server",
       "subpath": "packages/delivery-client",
       "source_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
-      "history_ref": "refs/consolidated/delivery-client/original-HEAD"
+      "local_history_ref": "refs/consolidated/delivery-client/original-HEAD",
+      "history_archive": {
+        "path": "source-history/delivery-client/original.bundle",
+        "format": "git-bundle-v2",
+        "sha256": "9311c18f8e843ae41f4ee6908263e6a133b714c6a02eae4d591a25024234daec",
+        "original_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
+        "observed_source_refs": [
+          {
+            "sha": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
+            "ref": "refs/heads/main"
+          }
+        ]
+      }
     }
   ],
-  "status": "Maintained source consolidation; Rust/Vue ports and independent registry publication remain pending."
+  "status": "Source consolidated and maintained; original Git history is preserved in source-history bundles. Registry availability is recorded separately for each released package and version."
 }
