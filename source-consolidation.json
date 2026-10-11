@@ -1,0 +1,24 @@
+{
+  "schema": "source-consolidation-v1",
+  "components": [
+    {
+      "id": "delivery-contracts",
+      "owner_id": "delivery-server",
+      "original_repository": "hathq/delivery-contracts",
+      "owner_repository": "hathq/delivery-server",
+      "subpath": "packages/delivery-contracts",
+      "source_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
+      "history_ref": "refs/consolidated/delivery-contracts/original-HEAD"
+    },
+    {
+      "id": "delivery-client",
+      "owner_id": "delivery-server",
+      "original_repository": "hathq/delivery-client",
+      "owner_repository": "hathq/delivery-server",
+      "subpath": "packages/delivery-client",
+      "source_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
+      "history_ref": "refs/consolidated/delivery-client/original-HEAD"
+    }
+  ],
+  "status": "local source consolidation; Rust/Vue ports and remote publication pending"
+}
