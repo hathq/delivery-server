@@ -84,3 +84,5 @@ __pycache__/
 
 # Temporary isolated-consumer links are not source.
 node_modules
+
+/outgoing/
