@@ -1,5 +1,5 @@
-import type {Json} from '@hathq/projection-contracts/client'
-import type {ClientProjectionRuntime} from '@hathq/projection-client'
+import type {Json} from '@zixcel/projection-contracts/client'
+import type {ClientProjectionRuntime} from '@zixcel/projection-client'
 import type {Delivery} from '@hathq/delivery-contracts'
 
 /** Owner-supplied bootstrap data serialized in the delivery document. */

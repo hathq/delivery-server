@@ -1,5 +1,5 @@
 // Presentation only: disclose one person topic at a time, never derive actions.
-import {element} from '@hathq/dom-renderer'
+import {element} from '@zixcel/dom-renderer'
 export function conversationDeck(document,{operations,feedback,processing,input,observations,information}){
  const root=element(document,'section',null,{class:'conversation-deck'}),choices=element(document,'div',null,{class:'conversation-choices'})
  const back=element(document,'button','←',{type:'button',class:'conversation-back','aria-label':'Back to conversation',title:'Back to conversation'})

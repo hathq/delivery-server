@@ -9,8 +9,8 @@ import {createHash} from 'node:crypto'
 import {build} from 'esbuild'
 import {chromium,expect} from '@playwright/test'
 import {createDeliveryServer} from '@hathq/delivery-server'
-import {produce,scene} from '@hathq/projection-contracts'
-import {projectionIdentity} from '@hathq/projection-client'
+import {produce,scene} from '@zixcel/projection-contracts'
+import {projectionIdentity} from '@zixcel/projection-client'
 const source={owner:'fixture',ref:'subject:one',revision:'source:1',kind:'subject'}
 const input={action:{operation_id:'fixture/choose',target:'subject:one',contract_revision:'input:1',availability:{state:'available'},expected_revision_required:true,
  input_schema:{type:'object',fields:{choice:{type:'string',min_length:1,max_length:64,choices:['exact-value']},instant:{type:'integer',minimum:-1000,maximum:1000}},required:['choice']}},
@@ -25,7 +25,7 @@ function snapshot(value,ids=['item:one','item:two'],temporal=false){return scene
 test('desktop/mobile exact first state, native form IDs, Crowsi update/reconnect, CSP and complete disposal', {timeout:45000},async()=>{
  const bundle=await build({stdin:{contents:"import {startDelivery} from './src/index.mjs'; window.delivery=startDelivery(document.getElementById('app'),JSON.parse(document.getElementById('delivery-state').textContent));",resolveDir:process.cwd()},
  bundle:true,platform:'browser',format:'esm',minify:true,write:false,logLevel:'silent'})
- const script=Buffer.from(bundle.outputFiles[0].contents),style=fs.readFileSync(new URL(import.meta.resolve('@hathq/dom-renderer/style')))
+ const script=Buffer.from(bundle.outputFiles[0].contents),style=fs.readFileSync(new URL(import.meta.resolve('@zixcel/dom-renderer/style')))
  assert(script.length<724992,'bounded Three.js client within the product asset budget')
  const assets=[['client.js',script,'script'],['style.css',style,'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
  const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r))

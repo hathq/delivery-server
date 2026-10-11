@@ -7,8 +7,8 @@ import {createHash} from 'node:crypto'
 import {build} from 'esbuild'
 import {chromium,expect} from '@playwright/test'
 import {createDeliveryServer} from '@hathq/delivery-server'
-import {produce,scene} from '@hathq/projection-contracts'
-import {projectionIdentity} from '@hathq/projection-client'
+import {produce,scene} from '@zixcel/projection-contracts'
+import {projectionIdentity} from '@zixcel/projection-client'
 
 test('bounded role conversation: execution state, exact confirmation, stale input invalidation and disposal on desktop/mobile',{timeout:60000},async()=>{
  const source={owner:'fixture/control',ref:'execution:one',revision:'source:1',kind:'operation'}
@@ -22,7 +22,7 @@ test('bounded role conversation: execution state, exact confirmation, stale inpu
    actions:status==='AwaitingConfirmation'?[{id:'confirm',targetOwner:'fixture/control',commandRef:'fixture/confirm',label:'Review your choice',sourceRefs:[exact],contextRefs:[],interaction}]:[]})}
  const bundle=await build({stdin:{contents:"import {startDelivery} from './src/index.mjs';window.delivery=startDelivery(document.getElementById('app'),JSON.parse(document.getElementById('delivery-state').textContent));",resolveDir:process.cwd()},bundle:true,platform:'browser',format:'esm',minify:true,write:false,logLevel:'silent'})
  assert.deepEqual(bundle.warnings,[]);assert(bundle.outputFiles[0].contents.length<724992)
- const assets=[['client.js',Buffer.from(bundle.outputFiles[0].contents),'script'],['style.css',fs.readFileSync(new URL(import.meta.resolve('@hathq/dom-renderer/style'))),'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
+ const assets=[['client.js',Buffer.from(bundle.outputFiles[0].contents),'script'],['style.css',fs.readFileSync(new URL(import.meta.resolve('@zixcel/dom-renderer/style'))),'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
  const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r))
  const origin='http://localhost:'+port;let current=snapshot('Running','source:1'),commands=[],workState='Running',relatedReads=0,driverFailure=null,ranking=null,inferenceAvailable=true
  const received=[

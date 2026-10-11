@@ -20,14 +20,14 @@
   "devDependencies": {
     "esbuild": "0.28.1",
     "@playwright/test": "1.62.1",
-    "@hathq/delivery-server": "file:../.."
+    "@hathq/delivery-server": "0.10.0"
   },
   "dependencies": {
-    "@hathq/delivery-contracts": "file:../delivery-contracts",
-    "@hathq/projection-client": "file:../../../../zixcel/projection-runtime/packages/projection-client",
-    "@hathq/dom-renderer": "file:../../../../zixcel/projection-runtime/packages/dom-renderer",
+    "@hathq/delivery-contracts": "0.10.0",
+    "@zixcel/projection-client": "0.10.0",
+    "@zixcel/dom-renderer": "0.10.0",
     "@crowsi/transport-foundation": "0.10.0",
-    "@hathq/projection-contracts": "0.10.0"
+    "@zixcel/projection-contracts": "0.10.0"
   },
   "scripts": {
     "test": "node --test --test-concurrency=1 test/*.test.mjs"
