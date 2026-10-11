@@ -30,9 +30,9 @@ jobs:
               assert hashlib.sha256(bundle.read_bytes()).hexdigest()==archive['sha256']
               with tempfile.TemporaryDirectory() as folder:
                   subprocess.run(['git','init','--bare','--quiet',folder],check=True)
-                  subprocess.run(['git','-C',folder,'fetch','--quiet',str(bundle),'+refs/heads/*:refs/heads/*','+refs/tags/*:refs/tags/*'],check=True)
+                  subprocess.run(['git','-C',folder,'fetch','--quiet',str(bundle),'+refs/heads/*:refs/heads/*','+refs/tags/*:refs/tags/*','+refs/pull/*:refs/pull/*'],check=True)
                   subprocess.run(['git','-C',folder,'cat-file','-e',component['source_head']+'^{commit}'],check=True)
-                  for reference in archive['observed_source_refs']:
+                  for reference in archive['observed_source_refs'] + archive.get('observed_source_pull_refs', []):
                       ref=reference['ref']
                       if ref.startswith('refs/heads/'):
                           ref=ref.replace('refs/heads/','refs/heads/source/',1)
