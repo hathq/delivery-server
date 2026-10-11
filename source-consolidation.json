@@ -12,12 +12,18 @@
       "history_archive": {
         "path": "source-history/delivery-contracts/original.bundle",
         "format": "git-bundle-v2",
-        "sha256": "561a1e775c1280babcdf8af4b5de64c818079cf22cdfdc25a7dcda8e8e240e0b",
+        "sha256": "d4f6b186c764137d615e4cfa94500528f345e08f4865fd951116368dfe7a3753",
         "original_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
         "observed_source_refs": [
           {
             "sha": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
             "ref": "refs/heads/main"
+          }
+        ],
+        "observed_source_pull_refs": [
+          {
+            "ref": "refs/pull/1/head",
+            "sha": "a706b03874390143ef94d39ca84e617c4247be8c"
           }
         ]
       }
@@ -33,12 +39,18 @@
       "history_archive": {
         "path": "source-history/delivery-client/original.bundle",
         "format": "git-bundle-v2",
-        "sha256": "9311c18f8e843ae41f4ee6908263e6a133b714c6a02eae4d591a25024234daec",
+        "sha256": "f4ab7e81096d7b41aa51f9c4dbf67ad071f06ba833cca51b83a68eb83e6c0d45",
         "original_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
         "observed_source_refs": [
           {
             "sha": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
             "ref": "refs/heads/main"
+          }
+        ],
+        "observed_source_pull_refs": [
+          {
+            "ref": "refs/pull/1/head",
+            "sha": "2a3a035d05b896714865947f8e16d131900d566a"
           }
         ]
       }
