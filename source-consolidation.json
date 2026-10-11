@@ -20,5 +20,5 @@
       "history_ref": "refs/consolidated/delivery-client/original-HEAD"
     }
   ],
-  "status": "local source consolidation; Rust/Vue ports and remote publication pending"
+  "status": "Maintained source consolidation; Rust/Vue ports and independent registry publication remain pending."
 }

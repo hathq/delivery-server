@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hathq/delivery-server.git",
+    "url": "git+https://github.com/hathq/delivery-server.git",
     "directory": "packages/delivery-contracts"
   },
   "types": "./src/index.d.mts"
