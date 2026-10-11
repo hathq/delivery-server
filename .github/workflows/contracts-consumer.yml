@@ -1,0 +1,31 @@
+name: Verify packed delivery contracts
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  contracts-consumer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.15.0'
+      - name: Pack the maintained package and install official dependencies
+        run: |
+          mkdir "$RUNNER_TEMP/contracts-consumer"
+          npm pack ./packages/delivery-contracts --pack-destination "$RUNNER_TEMP/contracts-consumer"
+          cp packages/delivery-contracts/test/consumer.mts "$RUNNER_TEMP/contracts-consumer/"
+          cd "$RUNNER_TEMP/contracts-consumer"
+          printf '%s\n' '{"name":"contracts-consumer","private":true,"type":"module"}' > package.json
+          npm install --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org ./hathq-delivery-contracts-0.10.0.tgz typescript@5.9.3
+      - name: Verify actual archive ESM exports and strict NodeNext declarations
+        run: |
+          cd "$RUNNER_TEMP/contracts-consumer"
+          node --input-type=module -e "import {bounds} from '@hathq/delivery-contracts'; if(bounds.requestBytes!==32768)throw new Error('contract bounds mismatch')"
+          ./node_modules/.bin/tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext consumer.mts

@@ -1,0 +1,37 @@
+{
+  "name": "@hathq/delivery-client",
+  "version": "0.10.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Exact document adoption and trusted RenderPlan application over Crowsi STATE",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "LICENSE-PREVIOUS"
+  ],
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1",
+    "@playwright/test": "1.62.1",
+    "@hathq/delivery-server": "file:../..",
+    "@hathq/projection-contracts": "file:../../../../zixcel/projection-runtime/packages/projection-contracts"
+  },
+  "dependencies": {
+    "@hathq/delivery-contracts": "file:../delivery-contracts",
+    "@hathq/projection-client": "file:../../../../zixcel/projection-runtime/packages/projection-client",
+    "@hathq/dom-renderer": "file:../../../../zixcel/projection-runtime/packages/dom-renderer",
+    "@crowsi/transport-foundation": "0.10.0"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hathq/delivery-server.git",
+    "directory": "packages/delivery-client"
+  }
+}

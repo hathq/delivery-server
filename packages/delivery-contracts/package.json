@@ -1,0 +1,33 @@
+{
+  "name": "@hathq/delivery-contracts",
+  "version": "0.10.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Bounded site delivery and per-source readiness over exact Projection contracts",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "LICENSE-PREVIOUS"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.mts",
+      "import": "./src/index.mjs"
+    }
+  },
+  "dependencies": {
+    "@hathq/projection-contracts": "0.10.0",
+    "@zixcel/interaction": "0.10.1"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hathq/delivery-server.git",
+    "directory": "packages/delivery-contracts"
+  },
+  "types": "./src/index.d.mts"
+}
