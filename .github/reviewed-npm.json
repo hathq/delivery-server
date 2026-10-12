@@ -3,24 +3,24 @@
   "packages": [
     {
       "name": "@hathq/delivery-server",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "directory": ".",
-      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
-      "sha256": "38b893cc3af07a05cb316915ebb219726a7c3612214d26559834dc20c0373d52"
+      "source_sha": "413f3983eaab325fced8c495a267ec6962d4a517",
+      "sha256": "cfa4c9fe22038c51ac7caa4673f1d71618bca8ba3c031275899cd4d4b78cbc34"
     },
     {
       "name": "@hathq/delivery-contracts",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "directory": "packages/delivery-contracts",
-      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
-      "sha256": "10c379779ad9e9f1897395884dbf583ba40692af4c0ad5485bd7a5503ba77756"
+      "source_sha": "413f3983eaab325fced8c495a267ec6962d4a517",
+      "sha256": "81b9cf8467596b74e354b65f1d5c6d5f0e5cb3c1f0e46b5ccb01b52fe47893b5"
     },
     {
       "name": "@hathq/delivery-client",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "directory": "packages/delivery-client",
-      "source_sha": "988e0ff3b7b10a48a23c95e2f171d9c3a3286a9e",
-      "sha256": "023abf500425676a05a203f1729f4d2d5b3e149837485ee4a4ab5fcd7abeef2d"
+      "source_sha": "413f3983eaab325fced8c495a267ec6962d4a517",
+      "sha256": "c8ba92da2efa04dee20133c54018f65159e85649b6a33ac5a64799a3f48ee76d"
     }
   ]
 }
