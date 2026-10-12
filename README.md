@@ -15,7 +15,7 @@ Package distribution is not activated by this documentation. Use the checked-in 
 
 ## Getting started
 
-This migration branch uses registry version declarations for the new Zixcel host/contracts and projection packages. Their initial npm publication is pending. CI tests all reviewed archives together; the branch must not replace a released consumer dependency graph before official publication.
+Generic delivery and projection dependencies are available from the public npm registry at the exact declared versions. CI packs only the Hatter product adapters and installs their generic dependencies from the public registry in an isolated consumer. No sibling checkout or historical source repository is needed.
 
 Use the package manager matching the checked-in lockfile and the Node.js version declared in `package.json` or the development configuration. Run from this repository:
 

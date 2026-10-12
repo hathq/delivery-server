@@ -18,32 +18,18 @@ jobs:
         with:
           node-version: '24.15.0'
           package-manager-cache: false
-      - name: Build exact dependency artifacts and verify isolated consumers
+      - name: Pack product adapters and verify official registry dependencies
         run: |
           : > "$RUNNER_TEMP/user.npmrc"
           : > "$RUNNER_TEMP/global.npmrc"
           export NPM_CONFIG_USERCONFIG="$RUNNER_TEMP/user.npmrc"
           export NPM_CONFIG_GLOBALCONFIG="$RUNNER_TEMP/global.npmrc"
           export NPM_CONFIG_REGISTRY=https://registry.npmjs.org
-          git init --quiet "$RUNNER_TEMP/projection"
-          git -C "$RUNNER_TEMP/projection" remote add origin https://github.com/zixcel/projection-runtime.git
-          git -C "$RUNNER_TEMP/projection" fetch --quiet --depth=1 origin c8a5e4bebc56a8d726772664c92870228378de6b
-          git -C "$RUNNER_TEMP/projection" checkout --quiet --detach FETCH_HEAD
-          git init --quiet "$RUNNER_TEMP/generic-delivery"
-          git -C "$RUNNER_TEMP/generic-delivery" remote add origin https://github.com/zixcel/view-delivery.git
-          git -C "$RUNNER_TEMP/generic-delivery" fetch --quiet --depth=1 origin ff653d6307c7018ef58c0710a294a60449bcdb2c
-          git -C "$RUNNER_TEMP/generic-delivery" checkout --quiet --detach FETCH_HEAD
           mkdir "$RUNNER_TEMP/consumer"
           mkdir "$RUNNER_TEMP/consumer/archives"
           npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
           npm pack ./packages/delivery-contracts --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
           npm pack ./packages/delivery-client --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives"
-          for folder in . packages/delivery-contracts; do
-            (cd "$RUNNER_TEMP/generic-delivery/$folder" && npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives")
-          done
-          for folder in . packages/projection-contracts packages/projection-client packages/dom-renderer; do
-            (cd "$RUNNER_TEMP/projection/$folder" && npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/consumer/archives")
-          done
           cd "$RUNNER_TEMP/consumer"
           printf '%s\n' '{"private":true,"type":"module"}' > package.json
           npm install --ignore-scripts --no-audit --no-fund ./archives/*.tgz typescript@5.9.3 @types/node@24.12.0 esbuild@0.28.1 @playwright/test@1.62.1
