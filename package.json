@@ -1,6 +1,6 @@
 {
   "name": "@hathq/delivery-server",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "type": "module",
   "license": "Apache-2.0",
   "description": "Hatter product policy adapter for the generic Zixcel delivery host",
