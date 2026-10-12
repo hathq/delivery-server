@@ -1,6 +1,6 @@
 {
   "name": "@hathq/delivery-client",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "type": "module",
   "license": "Apache-2.0",
   "description": "Exact document adoption and trusted RenderPlan application over Crowsi STATE",
@@ -23,7 +23,7 @@
     "@hathq/delivery-server": "0.10.0"
   },
   "dependencies": {
-    "@hathq/delivery-contracts": "0.10.0",
+    "@hathq/delivery-contracts": "0.10.1",
     "@zixcel/projection-client": "0.10.0",
     "@zixcel/dom-renderer": "0.10.0",
     "@crowsi/transport-foundation": "0.10.0",
