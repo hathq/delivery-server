@@ -1,0 +1,254 @@
+{
+  "repository": "hathq/delivery-server",
+  "purpose": "Serve reviewed view snapshots and trusted release assets from a configured display host.",
+  "responsibility_boundary": "Own only the documented product/interface scope. Reuse applicable managed common components without forcing unrelated dependencies. Separate synthetic source acceptance from actual account, data and deployment acceptance.",
+  "packages": [
+    {
+      "manifest": "package.json",
+      "package": "@hathq/delivery-server",
+      "ecosystem": "npm",
+      "description": "Hatter product policy adapter for the generic Zixcel delivery host",
+      "interfaces": {
+        "exports": {
+          ".": {
+            "types": "./src/index.d.mts",
+            "import": "./src/index.mjs"
+          }
+        },
+        "bin": {},
+        "main": null,
+        "types": "./src/index.d.mts"
+      },
+      "declared_commands": {
+        "test": "node --test test/*.test.mjs"
+      }
+    },
+    {
+      "manifest": "packages/delivery-client/package.json",
+      "package": "@hathq/delivery-client",
+      "ecosystem": "npm",
+      "description": "Exact document adoption and trusted RenderPlan application over Crowsi STATE",
+      "interfaces": {
+        "exports": {
+          ".": {
+            "types": "./src/index.d.mts",
+            "import": "./src/index.mjs"
+          }
+        },
+        "bin": {},
+        "main": null,
+        "types": "./src/index.d.mts"
+      },
+      "declared_commands": {
+        "test": "node --test --test-concurrency=1 test/*.test.mjs"
+      }
+    },
+    {
+      "manifest": "packages/delivery-contracts/package.json",
+      "package": "@hathq/delivery-contracts",
+      "ecosystem": "npm",
+      "description": "Bounded site delivery and per-source readiness over exact Projection contracts",
+      "interfaces": {
+        "exports": {
+          ".": {
+            "types": "./src/index.d.mts",
+            "import": "./src/index.mjs"
+          }
+        },
+        "bin": {},
+        "main": null,
+        "types": "./src/index.d.mts"
+      },
+      "declared_commands": {
+        "test": "node --test test/*.test.mjs"
+      }
+    }
+  ],
+  "schema_definitions": [],
+  "test_sources": [
+    "packages/delivery-client/src/index.mjs",
+    "packages/delivery-client/test/activity-view.test.mjs",
+    "packages/delivery-client/test/browser.test.mjs",
+    "packages/delivery-client/test/conversation.test.mjs",
+    "packages/delivery-client/test/garden-document.test.mjs",
+    "packages/delivery-client/test/person-information.test.mjs",
+    "packages/delivery-client/test/unresolved-presentation.test.mjs",
+    "packages/delivery-contracts/test/consumer.mts",
+    "packages/delivery-contracts/test/delivery.test.mjs",
+    "scripts/reviewed-npm.test.mjs",
+    "test/server.test.mjs"
+  ],
+  "example_sources": [],
+  "workflow_definitions": [
+    {
+      "path": ".github/workflows/contracts-consumer.yml",
+      "jobs": [
+        {
+          "job": "product-adapters",
+          "condition": null,
+          "runs_on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+              "condition": null
+            },
+            {
+              "name": "Pack product adapters and verify official registry dependencies",
+              "run": ": > \"$RUNNER_TEMP/user.npmrc\"\n: > \"$RUNNER_TEMP/global.npmrc\"\nexport NPM_CONFIG_USERCONFIG=\"$RUNNER_TEMP/user.npmrc\"\nexport NPM_CONFIG_GLOBALCONFIG=\"$RUNNER_TEMP/global.npmrc\"\nexport NPM_CONFIG_REGISTRY=https://registry.npmjs.org\nmkdir \"$RUNNER_TEMP/consumer\"\nmkdir \"$RUNNER_TEMP/consumer/archives\"\nnpm pack --ignore-scripts --json --pack-destination \"$RUNNER_TEMP/consumer/archives\"\nnpm pack ./packages/delivery-contracts --ignore-scripts --json --pack-destination \"$RUNNER_TEMP/consumer/archives\"\nnpm pack ./packages/delivery-client --ignore-scripts --json --pack-destination \"$RUNNER_TEMP/consumer/archives\"\ncd \"$RUNNER_TEMP/consumer\"\nprintf '%s\\n' '{\"private\":true,\"type\":\"module\"}' > package.json\nnpm install --ignore-scripts --no-audit --no-fund ./archives/*.tgz typescript@5.9.3 @types/node@24.12.0 esbuild@0.28.1 @playwright/test@1.62.1\nnode node_modules/playwright/cli.js install --with-deps chromium\ncp \"$GITHUB_WORKSPACE/packages/delivery-contracts/test/consumer.mts\" .\nnode node_modules/typescript/bin/tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext --target ES2022 consumer.mts\nln -s \"$RUNNER_TEMP/consumer/node_modules\" \"$GITHUB_WORKSPACE/node_modules\"\ncd \"$GITHUB_WORKSPACE\"\nnode --test test/*.test.mjs\n(cd packages/delivery-contracts && node --test test/*.test.mjs)\n(cd packages/delivery-client && env -u NO_COLOR node --test --test-concurrency=1 test/*.test.mjs)\n",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+              "condition": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "jobs": [
+        {
+          "job": "repository-policy",
+          "condition": null,
+          "runs_on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": "Verify repository policy",
+              "run": "python3 .github/oss-policy-check.py",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Verify policy regression tests",
+              "run": "cd .github && python3 -m unittest discover -s policy-tests",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Check policy types",
+              "run": "python3 -m venv \"$RUNNER_TEMP/policy-types\"\n\"$RUNNER_TEMP/policy-types/bin/pip\" install -r .github/policy/requirements.txt\n\"$RUNNER_TEMP/policy-types/bin/mypy\" --strict .github/policy .github/oss-policy-check.py .github/policy-tests\n",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/publish-npm.yml",
+      "jobs": [
+        {
+          "job": "verify",
+          "condition": null,
+          "runs_on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": "npm install --global --ignore-scripts --no-audit --no-fund npm@12.2.0",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": "node --test scripts/reviewed-npm.test.mjs",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": "node scripts/reviewed-npm.mjs prepare",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        },
+        {
+          "job": "publish",
+          "condition": "github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'",
+          "runs_on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": "npm install --global --ignore-scripts --no-audit --no-fund npm@12.2.0",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Publish exact reviewed archives and verify official hashes",
+              "run": "node scripts/reviewed-npm.mjs publish",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/source-history.yml",
+      "jobs": [
+        {
+          "job": "source-history",
+          "condition": null,
+          "runs_on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": "Restore original Git objects and verify every observed source ref",
+              "run": "python3 - <<'PY'\nimport hashlib,json,subprocess,tempfile\nfrom pathlib import Path\ndata=json.loads(Path('source-consolidation.json').read_text())\ncount=0\nfor component in data['components']:\n    archive=component.get('history_archive')\n    if archive is None:\n        continue\n    bundle=Path(archive['path']).resolve()\n    assert hashlib.sha256(bundle.read_bytes()).hexdigest()==archive['sha256']\n    with tempfile.TemporaryDirectory() as folder:\n        subprocess.run(['git','init','--bare','--quiet',folder],check=True)\n        subprocess.run(['git','-C',folder,'fetch','--quiet',str(bundle),'+refs/heads/*:refs/heads/*','+refs/tags/*:refs/tags/*','+refs/pull/*:refs/pull/*'],check=True)\n        subprocess.run(['git','-C',folder,'cat-file','-e',component['source_head']+'^{commit}'],check=True)\n        for reference in archive['observed_source_refs'] + archive.get('observed_source_pull_refs', []):\n            ref=reference['ref']\n            if ref.startswith('refs/heads/'):\n                ref=ref.replace('refs/heads/','refs/heads/source/',1)\n            actual=subprocess.check_output(['git','-C',folder,'rev-parse',ref],text=True).strip()\n            assert actual==reference['sha'], reference['ref']\n    count+=1\nassert count>0\nprint(f'Restored {count} source histories and all recorded refs')\nPY\n",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence_policy": "Declarations and source paths are not proof of an executed acceptance. Exact CI head and result are recorded separately. No live accounts or production acceptance is inferred."
+}
