@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repository": "hathq/delivery-server",
+  "defaultBranch": "main",
+  "requiredWorkflows": [
+    "contracts-consumer.yml",
+    "oss-policy.yml"
+  ],
+  "packages": [
+    {
+      "ecosystem": "npm",
+      "manifest": "package.json",
+      "name": "@hathq/delivery-server",
+      "installDirectory": "."
+    },
+    {
+      "ecosystem": "npm",
+      "manifest": "packages/delivery-client/package.json",
+      "name": "@hathq/delivery-client",
+      "installDirectory": "packages/delivery-client"
+    },
+    {
+      "ecosystem": "npm",
+      "manifest": "packages/delivery-contracts/package.json",
+      "name": "@hathq/delivery-contracts",
+      "installDirectory": "packages/delivery-contracts"
+    }
+  ]
+}
