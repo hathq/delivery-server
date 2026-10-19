@@ -28,5 +28,11 @@
     "url": "git+https://github.com/hathq/delivery-server.git",
     "directory": "packages/delivery-contracts"
   },
-  "types": "./src/index.d.mts"
+  "types": "./src/index.d.mts",
+  "keywords": [
+    "artifact-distribution",
+    "typed-contracts",
+    "schema-validation",
+    "javascript"
+  ]
 }
