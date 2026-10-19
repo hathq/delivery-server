@@ -27,5 +27,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hathq/delivery-server.git"
-  }
+  },
+  "keywords": [
+    "artifact-distribution",
+    "static-assets",
+    "api-server",
+    "typescript"
+  ]
 }

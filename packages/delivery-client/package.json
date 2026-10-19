@@ -37,5 +37,11 @@
     "url": "git+https://github.com/hathq/delivery-server.git",
     "directory": "packages/delivery-client"
   },
-  "types": "./src/index.d.mts"
+  "types": "./src/index.d.mts",
+  "keywords": [
+    "artifact-distribution",
+    "client",
+    "typed-contracts",
+    "javascript"
+  ]
 }
