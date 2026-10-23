@@ -13,7 +13,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: npm-release-${{ github.repository }}
+  group: npm-release-${{ github.repository }}-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   contract:

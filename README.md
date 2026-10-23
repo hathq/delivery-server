@@ -17,7 +17,7 @@ Package distribution is not activated by this documentation. Use the checked-in 
 
 Generic delivery and projection dependencies are available from the public npm registry at the exact declared versions. CI packs only the Hatter product adapters and installs their generic dependencies from the public registry in an isolated consumer. No sibling checkout or historical source repository is needed.
 
-Use the package manager matching the checked-in lockfile and the Node.js version declared in `package.json` or the development configuration. Run from this repository:
+Develop all three packages from this repository root using the single pnpm workspace lockfile. Internal development links resolve only to the current workspace packages; published dependencies retain exact npm versions. The public archive consumer is tested independently from those development links. Use the declared Node.js version:
 
 ```sh
 pnpm install --frozen-lockfile

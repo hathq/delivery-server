@@ -1,6 +1,6 @@
 {
   "name": "@hathq/delivery-client",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "type": "module",
   "license": "Apache-2.0",
   "description": "Exact document adoption and trusted RenderPlan application over Crowsi STATE",
@@ -20,14 +20,14 @@
   "devDependencies": {
     "esbuild": "0.28.1",
     "@playwright/test": "1.62.1",
-    "@hathq/delivery-server": "0.10.0"
+    "@hathq/delivery-server": "0.10.2"
   },
   "dependencies": {
-    "@hathq/delivery-contracts": "0.10.1",
-    "@zixcel/projection-client": "0.10.0",
-    "@zixcel/dom-renderer": "0.10.0",
+    "@hathq/delivery-contracts": "0.10.2",
+    "@zixcel/projection-client": "0.10.5",
+    "@zixcel/dom-renderer": "0.10.6",
     "@crowsi/transport-foundation": "0.10.0",
-    "@zixcel/projection-contracts": "0.10.0"
+    "@zixcel/projection-contracts": "0.10.5"
   },
   "scripts": {
     "test": "node --test --test-concurrency=1 test/*.test.mjs"

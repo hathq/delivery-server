@@ -1,5 +1,5 @@
 packages:
   - "."
-  - "packages/delivery-contracts"
   - "packages/delivery-client"
+  - "packages/delivery-contracts"
 linkWorkspacePackages: true
