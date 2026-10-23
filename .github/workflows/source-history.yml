@@ -1,4 +1,4 @@
-name: Source history restoration
+name: Current source provenance
 on:
   push:
     branches: [main]
@@ -15,30 +15,27 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Restore original Git objects and verify every observed source ref
+      - name: Verify current owner provenance without restoring retired repositories
         run: |
-          python3 - <<'PY'
-          import hashlib,json,subprocess,tempfile
-          from pathlib import Path
-          data=json.loads(Path('source-consolidation.json').read_text())
-          count=0
-          for component in data['components']:
-              archive=component.get('history_archive')
-              if archive is None:
-                  continue
-              bundle=Path(archive['path']).resolve()
-              assert hashlib.sha256(bundle.read_bytes()).hexdigest()==archive['sha256']
-              with tempfile.TemporaryDirectory() as folder:
-                  subprocess.run(['git','init','--bare','--quiet',folder],check=True)
-                  subprocess.run(['git','-C',folder,'fetch','--quiet',str(bundle),'+refs/heads/*:refs/heads/*','+refs/tags/*:refs/tags/*','+refs/pull/*:refs/pull/*'],check=True)
-                  subprocess.run(['git','-C',folder,'cat-file','-e',component['source_head']+'^{commit}'],check=True)
-                  for reference in archive['observed_source_refs'] + archive.get('observed_source_pull_refs', []):
-                      ref=reference['ref']
-                      if ref.startswith('refs/heads/'):
-                          ref=ref.replace('refs/heads/','refs/heads/source/',1)
-                      actual=subprocess.check_output(['git','-C',folder,'rev-parse',ref],text=True).strip()
-                      assert actual==reference['sha'], reference['ref']
-              count+=1
-          assert count>0
-          print(f'Restored {count} source histories and all recorded refs')
-          PY
+          python3 - <<'PYCODE'
+          import json, os, re, subprocess
+          from pathlib import Path, PurePosixPath
+          record = Path('source-consolidation.json')
+          assert record.is_file() and not record.is_symlink() and record.stat().st_size <= 65536
+          data = json.loads(record.read_text())
+          assert data['owner_repository'] == os.environ['GITHUB_REPOSITORY']
+          for component in data.get('components', []):
+              assert component['owner_repository'] == data['owner_repository']
+              assert re.fullmatch(r'[0-9a-f]{40}', component['source_head'])
+              path = PurePosixPath(component['subpath'])
+              assert not path.is_absolute() and '..' not in path.parts
+              assert (Path('.') / path).is_dir()
+              assert not {'history_archive', 'history_ref', 'local_history_ref'} & component.keys()
+          if not data.get('components'):
+              assert re.fullmatch(r'[0-9a-f]{40}', data['source_sha'])
+          assert 'canonical_history_bundle' not in data
+          paths = subprocess.check_output(['git', 'ls-files', '-z'], timeout=10).decode().split('\0')
+          assert len(paths) <= 8192
+          assert not any(p.endswith('.bundle') or 'source-history' in PurePosixPath(p).parts for p in paths if p)
+          print('Current owner provenance verified; no historical repository restoration')
+          PYCODE

@@ -8,25 +8,7 @@
       "owner_repository": "hathq/delivery-server",
       "subpath": "packages/delivery-contracts",
       "source_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
-      "local_history_ref": "refs/consolidated/delivery-contracts/original-HEAD",
-      "history_archive": {
-        "path": "source-history/delivery-contracts/original.bundle",
-        "format": "git-bundle-v2",
-        "sha256": "d4f6b186c764137d615e4cfa94500528f345e08f4865fd951116368dfe7a3753",
-        "original_head": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
-        "observed_source_refs": [
-          {
-            "sha": "27b7d0b26d8acfa830f7c75c0c7c3e2ef774b0aa",
-            "ref": "refs/heads/main"
-          }
-        ],
-        "observed_source_pull_refs": [
-          {
-            "ref": "refs/pull/1/head",
-            "sha": "a706b03874390143ef94d39ca84e617c4247be8c"
-          }
-        ]
-      }
+      "retired_archive_sha256": "d4f6b186c764137d615e4cfa94500528f345e08f4865fd951116368dfe7a3753"
     },
     {
       "id": "delivery-client",
@@ -35,26 +17,9 @@
       "owner_repository": "hathq/delivery-server",
       "subpath": "packages/delivery-client",
       "source_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
-      "local_history_ref": "refs/consolidated/delivery-client/original-HEAD",
-      "history_archive": {
-        "path": "source-history/delivery-client/original.bundle",
-        "format": "git-bundle-v2",
-        "sha256": "f4ab7e81096d7b41aa51f9c4dbf67ad071f06ba833cca51b83a68eb83e6c0d45",
-        "original_head": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
-        "observed_source_refs": [
-          {
-            "sha": "51082b92dc11cb2e57c32da41cd164c2a0791a4f",
-            "ref": "refs/heads/main"
-          }
-        ],
-        "observed_source_pull_refs": [
-          {
-            "ref": "refs/pull/1/head",
-            "sha": "2a3a035d05b896714865947f8e16d131900d566a"
-          }
-        ]
-      }
+      "retired_archive_sha256": "f4ab7e81096d7b41aa51f9c4dbf67ad071f06ba833cca51b83a68eb83e6c0d45"
     }
   ],
-  "status": "Source consolidated and maintained; original Git history is preserved in source-history bundles. Registry availability is recorded separately for each released package and version."
+  "status": "Current source is maintained only in this owner. Original repository and fixed SHA are provenance, not active sources. History archives and restoration are retired. Package manifests and the owner publication workflow define registry identities; registry availability must be checked independently.",
+  "owner_repository": "hathq/delivery-server"
 }
