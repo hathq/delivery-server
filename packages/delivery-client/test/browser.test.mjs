@@ -2,6 +2,7 @@
 // Hatter downstream 2026: test this client with its immutable declared dependencies,
 // matching product resolution rather than duplicating source-aliased dependency trees.
 import test from 'node:test'
+import {assertClientBundleBudget} from './bundle-budget.mts'
 import assert from 'node:assert/strict'
 import net from 'node:net'
 import fs from 'node:fs'
@@ -26,7 +27,7 @@ test('desktop/mobile exact first state, native form IDs, Crowsi update/reconnect
  const bundle=await build({stdin:{contents:"import {startDelivery} from './src/index.mjs'; window.delivery=startDelivery(document.getElementById('app'),JSON.parse(document.getElementById('delivery-state').textContent));",resolveDir:process.cwd()},
  bundle:true,platform:'browser',format:'esm',minify:true,write:false,logLevel:'silent'})
  const script=Buffer.from(bundle.outputFiles[0].contents),style=fs.readFileSync(new URL(import.meta.resolve('@zixcel/dom-renderer/style')))
- assert(script.length<724992,'bounded Three.js client within the product asset budget')
+ assertClientBundleBudget(script)
  const assets=[['client.js',script,'script'],['style.css',style,'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
  const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r))
  const origin=`http://localhost:${port}`,first=snapshot('</script><script>globalThis.injected=true</script>');let current=first,commands=[],rejectCommand=false,pending=false

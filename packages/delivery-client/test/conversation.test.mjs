@@ -1,5 +1,6 @@
 // Controlled contract fixture: real transport/rendering, not a claim of live LLM execution.
 import test from 'node:test'
+import {assertClientBundleBudget} from './bundle-budget.mts'
 import assert from 'node:assert/strict'
 import net from 'node:net'
 import fs from 'node:fs'
@@ -21,7 +22,7 @@ test('bounded role conversation: execution state, exact confirmation, stale inpu
    presentation:[{itemId:'execution:one',title:'Review the proposed action',fields:[{label:'Execution state',valuePath:['status']},{label:'Model',valuePath:['model']},...['scope','input','result','reference'].map(key=>({label:key,valuePath:[key]}))]}],
    actions:status==='AwaitingConfirmation'?[{id:'confirm',targetOwner:'fixture/control',commandRef:'fixture/confirm',label:'Review your choice',sourceRefs:[exact],contextRefs:[],interaction}]:[]})}
  const bundle=await build({stdin:{contents:"import {startDelivery} from './src/index.mjs';window.delivery=startDelivery(document.getElementById('app'),JSON.parse(document.getElementById('delivery-state').textContent));",resolveDir:process.cwd()},bundle:true,platform:'browser',format:'esm',minify:true,write:false,logLevel:'silent'})
- assert.deepEqual(bundle.warnings,[]);assert(bundle.outputFiles[0].contents.length<724992)
+ assert.deepEqual(bundle.warnings,[]);assertClientBundleBudget(bundle.outputFiles[0].contents)
  const assets=[['client.js',Buffer.from(bundle.outputFiles[0].contents),'script'],['style.css',fs.readFileSync(new URL(import.meta.resolve('@zixcel/dom-renderer/style'))),'style']].map(([name,bytes,kind])=>({path:'/assets/'+name,bytes,bytesLength:bytes.length,digest:createHash('sha256').update(bytes).digest('hex'),kind}))
  const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r))
  const origin='http://localhost:'+port;let current=snapshot('Running','source:1'),commands=[],workState='Running',relatedReads=0,driverFailure=null,ranking=null,inferenceAvailable=true
