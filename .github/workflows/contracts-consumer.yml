@@ -47,3 +47,22 @@ jobs:
           path: ${{ runner.temp }}/consumer/archives/hathq-delivery*.tgz
           if-no-files-found: error
           retention-days: 7
+
+  workspace-lock:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413
+        with:
+          version: 10.29.3
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Verify the single reproducible workspace dependency graph
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          git diff --exit-code

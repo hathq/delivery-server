@@ -17,13 +17,13 @@
       "ecosystem": "npm",
       "manifest": "packages/delivery-client/package.json",
       "name": "@hathq/delivery-client",
-      "installDirectory": "packages/delivery-client"
+      "installDirectory": "."
     },
     {
       "ecosystem": "npm",
       "manifest": "packages/delivery-contracts/package.json",
       "name": "@hathq/delivery-contracts",
-      "installDirectory": "packages/delivery-contracts"
+      "installDirectory": "."
     }
   ]
 }

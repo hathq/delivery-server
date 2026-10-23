@@ -20,10 +20,10 @@
   "devDependencies": {
     "esbuild": "0.28.1",
     "@playwright/test": "1.62.1",
-    "@hathq/delivery-server": "0.10.0"
+    "@hathq/delivery-server": "0.10.2"
   },
   "dependencies": {
-    "@hathq/delivery-contracts": "0.10.1",
+    "@hathq/delivery-contracts": "0.10.2",
     "@zixcel/projection-client": "0.10.5",
     "@zixcel/dom-renderer": "0.10.6",
     "@crowsi/transport-foundation": "0.10.0",
