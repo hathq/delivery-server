@@ -21,8 +21,8 @@ importers:
         specifier: 0.10.2
         version: link:../delivery-contracts
       '@zixcel/dom-renderer':
-        specifier: 0.10.6
-        version: 0.10.6
+        specifier: 0.10.7
+        version: 0.10.7
       '@zixcel/projection-client':
         specifier: 0.10.5
         version: 0.10.5
@@ -220,8 +220,8 @@ packages:
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
 
-  '@zixcel/dom-renderer@0.10.6':
-    resolution: {integrity: sha512-+LyrKzR0LlIVndxjeU+psNmy2M0+qZ8j6UdCDRbrMzz53uYyc9w6XHUjMDStyIjwSurQVhzi/G0d+d4Oqzs8dA==}
+  '@zixcel/dom-renderer@0.10.7':
+    resolution: {integrity: sha512-Lx0qXroPMimJa+SbDAqeN/+oKPLPHBHUzNTHRcVjumwMKEtXzWSjkB+H5KQNj0C3EjzoCuibl9mUADrtu7QWgA==}
 
   '@zixcel/interaction@0.10.1':
     resolution: {integrity: sha512-irtb3FhlM2g13wWlPcroTFCXB36O7a6KS/HqWSGRY7Snys8PA9cO+qTlcdKrzwMQ+xoPHHFPbq/AMuasoTN+bg==}
@@ -368,7 +368,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@zixcel/dom-renderer@0.10.6':
+  '@zixcel/dom-renderer@0.10.7':
     dependencies:
       '@zixcel/interaction': 0.10.1
       '@zixcel/projection-client': 0.10.5
